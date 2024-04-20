@@ -53,5 +53,17 @@ Quiz_MCQs:
 
 Check from an expert English Writer of the above quiz:
 """
+#creating a propmt for quiz evaluation
+quiz_evaluation_prompt=PromptTemplate(input_variables=["subject", "quiz"], template=TEMPLATE2)
+
+#creating a review chain to rvalueate the output
+review_chain=LLMChain(llm=llm , prompt=quiz_evaluation_prompt, output_key="review", verbose=True)
+
+#creating the sequetion chain for the entire process- here we run both the chain sequetially
+generate_evaluate_chain=SequentialChain(chains=[quiz_chain, review_chain], input_variables=["text", "number", "subject", "tone", "response_json"],
+                                        output_variables=["quiz", "review"], verbose=True,)
+
+
+
 
 
